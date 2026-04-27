@@ -880,7 +880,7 @@
 </div>
 
 <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR6BJVBWls5L1wgw6wjlWDMCLMAZVR-zGpjONQry5ccGuSW-CyWuw2gL-eJrGJY7nn/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw97lvkSX8qf2TOMdPuu4G5yBFxz0OWLVkXCUTSTHZ2p5hKu4BBZZ3SGP2DY1evhZZc/exec';
 
   const steps = document.querySelectorAll('.step');
   const TOTAL_STEPS = steps.length - 1;
@@ -924,7 +924,7 @@
   // ID 입력 후 다음으로
   // GitHub Pages → Apps Script CORS 문제로 GET 중복체크 불가
   // 입력값만 확인하고 바로 다음 단계로 이동 (중복 차단은 doPost 서버에서 처리)
-  async function checkIdAndNext() {
+async function checkIdAndNext() {
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
     const idError = document.getElementById('id-error');
@@ -933,21 +933,41 @@
     idError.classList.remove('show');
     dupError.classList.remove('show');
 
-    if (!idVal) {
-      idError.classList.add('show');
-      return;
-    }
+    if (!idVal) { idError.classList.add('show'); return; }
 
     const btn = document.getElementById('btn-check');
     btn.disabled = true;
     btn.textContent = '확인 중...';
 
-    currentStep++;
-    updateView();
-    btn.disabled = false;
-    btn.textContent = '다음';
-  }
+    // JSONP 방식으로 CORS 우회해서 중복 체크
+    const callbackName = 'cb_' + Date.now();
+    const script = document.createElement('script');
 
+    new Promise((resolve, reject) => {
+      window[callbackName] = (data) => {
+        delete window[callbackName];
+        document.body.removeChild(script);
+        resolve(data);
+      };
+      script.onerror = () => reject();
+      script.src = `${SCRIPT_URL}?check_id=${encodeURIComponent(idVal)}&callback=${callbackName}`;
+      document.body.appendChild(script);
+    }).then(data => {
+      if (data.exists) {
+        dupError.classList.add('show');
+      } else {
+        currentStep++;
+        updateView();
+      }
+    }).catch(() => {
+      // 오류 시 그냥 통과
+      currentStep++;
+      updateView();
+    }).finally(() => {
+      btn.disabled = false;
+      btn.textContent = '다음';
+    });
+  }
   // 최종 제출
   // CORS로 오류가 와도 실제 데이터는 전송됐을 수 있으므로 완료 화면으로 이동
   async function submitForm() {
