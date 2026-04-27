@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>총장 직무수행 평가 설문</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+    :root {
+      --primary: #0d2b5e;      
+      --primary-light: #1a4080;
+      --accent: #c8a951;      
+      --bg: #f7f7f5;        
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #d8d8d4;
+      --border-light: #ebebea;
+      --error: #b91c1c;
+      --success: #1e5a32;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px 80px;
+      min-height: 100vh;
+      letter-spacing: -0.01em;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── 헤더 ── */
+    .header {
+      text-align: center;
+      padding: 32px 0 24px;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 0;
+    }
+    .logo-img {
+      display: block;
+      max-width: 160px;
+      height: auto;
+      margin: 0 auto 20px;
+    }
+    .header .badge {
+      display: inline-block;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      padding: 3px 0;
+      margin-bottom: 10px;
+      border: none;
+    }
+    .header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+    .header p {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 6px;
+      letter-spacing: 0;
+    }
+
+    /* ── 공지 박스 ── */
+    .notice-box {
+      background: #f0f2f5;
+      border-top: 3px solid var(--accent);
+      padding: 18px 20px;
+      margin-bottom: 0;
+    }
+    .notice-icon { display: none; }
+    .notice-text p {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #374151;
+      line-height: 1.8;
+      margin-bottom: 4px;
+      word-break: keep-all;
+    }
+    .notice-text p:last-child { margin-bottom: 0; }
+    .notice-text .deadline {
+      font-weight: 500;
+      color: var(--primary);
+    }
+    .notice-text .thanks {
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* ── 진행바 ── */
+    .progress-wrap {
+      margin: 20px 0 16px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 3px;
+      background: var(--border-light);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ── 카드 ── */
+    .card {
+      background: var(--card);
+      border-radius: 0;
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      margin-bottom: 0;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* ── 섹션 제목 ── */
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--primary);
+      margin-bottom: 16px;
+    }
+    .scale-hint {
+      font-size: 0.73rem;
+      font-weight: 300;
+      color: var(--muted);
+      background: #f7f7f5;
+      border-left: 2px solid var(--accent);
+      padding: 8px 12px;
+      margin-bottom: 22px;
+      line-height: 1.7;
+    }
+
+    /* ── 소분류 제목 ── */
+    .subsection {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: 0.03em;
+      margin: 24px 0 12px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── 문항 ── */
+    .question {
+      margin-bottom: 22px;
+    }
+    .question-text {
+      font-size: 0.85rem;
+      font-weight: 400;
+      line-height: 1.65;
+      margin-bottom: 12px;
+      word-break: keep-all;
+      color: var(--text);
+    }
+    .required { color: var(--error); margin-left: 2px; }
+
+    /* 리커트 척도 */
+    .likert-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0;
+    }
+    .likert {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .likert label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .likert input[type="radio"] { display: none; }
+    .likert label .dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .likert label:hover .dot {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #f0f2f5;
+    }
+    .likert input[type="radio"]:checked + .dot {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* textarea */
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      font-size: 0.83rem;
+      font-weight: 300;
+      font-family: inherit;
+      height: 90px;
+      resize: vertical;
+      color: var(--text);
+      background: #fafafa;
+      transition: border-color 0.15s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    /* text input */
+    .text-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-family: inherit;
+      text-align: center;
+      color: var(--text);
+      transition: border-color 0.15s;
+      background: #fafafa;
+    }
+    .text-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+    }
+    .input-hint {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* ── 버튼 ── */
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 30px;
+    }
+    button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+      letter-spacing: 0.04em;
+    }
+    .btn-next, .btn-submit {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-next:hover, .btn-submit:hover { background: var(--primary-light); }
+    .btn-next:disabled, .btn-submit:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .btn-prev {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      flex: 0.5;
+    }
+    .btn-prev:hover { background: #f0f0ee; }
+
+    /* 완료 화면 */
+    .done-screen {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .done-screen .icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+    .done-screen h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .done-screen p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* 오류 메시지 */
+    .error-msg {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--error);
+      margin-top: 7px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">충남대학교 제10대 교수회</div>
+    <h1>총장 직무수행 평가 설문</h1>
+    <p>교수님의 소중한 의견을 반영하여 학교 발전에 기여하겠습니다.</p>
+  </div>
+
+  <div class="notice-box">
+    <div class="notice-icon"></div>
+    <div class="notice-text">
+      <p>본 설문조사는 응답자의 익명성을 철저히 보장하기 위해 외부 전문 업체를 통해 진행됩니다. <strong>모든 응답은 개인을 식별할 수 없는 형태로 수집·분석</strong>되며, 결과는 향후 정책 개선을 위한 자료로만 활용됩니다.</p>
+      <p>솔직하고 자유로운 의견을 부탁드립니다. 감사합니다.</p>
+      <p class="deadline"> 조사 기한: 5월 6일(화) 09:00까지</p>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="step-label">기본 정보</span>
+      <span id="step-count">1 / 6</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <form id="surveyForm" novalidate>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 0: 기본 정보 (ID 입력 + 중복 체크) -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step active" id="step-0">
+      <div class="card">
+        <div class="section-title">기본 정보 입력</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin:6px 0 20px;line-height:1.6;">
+         교직원 ID는 중복 제출 방지 목적으로만 사용되며, 응답 내용과 분리되어 관리됩니다.
+        </p>
+        <div class="question">
+          <div class="question-text">교직원 ID를 입력해주세요<span class="required">*</span></div>
+          <input type="text" id="user_id" name="user_id" class="text-input" placeholder="예) 2024001" autocomplete="off" onkeydown="if(event.key==='Enter') checkIdAndNext()">
+          <div class="input-hint">이미 제출하신 경우 중복 제출이 제한됩니다.</div>
+          <div class="error-msg" id="id-error">ID를 입력해주세요.</div>
+          <div class="error-msg" id="dup-error">이미 제출된 ID입니다. 중복 제출은 불가합니다.</div>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn-next" id="btn-check" onclick="checkIdAndNext()">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 1: 리더십 분야 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-1">
+      <div class="card">
+        <div class="section-title">1. 리더십 분야</div>
+        <div class="scale-hint">
+          1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분
+        </div>
+
+        <div class="subsection">1) 대학 최고경영자로서의 직무수행</div>
+        <div class="question">
+          <div class="question-text">(1) 대내외 환경 변화에 대응하여 대학의 비전과 발전 전략을 적절히 제시하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L1" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L1" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L1" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L1" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L1" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(2) 학내 주요 현안을 주도적으로 파악하고 신속하게 대처하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L2" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L2" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L2" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L2" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L2" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(3) 취임 공약의 이행 과정에서 책임성과 투명성을 갖추었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L3" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L3" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L3" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L3" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L3" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">2) 민주적·투명한 대학 운영</div>
+        <div class="question">
+          <div class="question-text">(4) 주요 정책 결정 과정에서 구성원의 의견이 실질적으로 수렴되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L4" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L4" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L4" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L4" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L4" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(5) 교수회 및 구성원과의 정례적 소통 채널이 원활하게 운영되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L5" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L5" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L5" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L5" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L5" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(6) 대학 운영의 주요 의사결정 과정과 결과가 구성원에게 적시에 공개되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L6" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L6" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L6" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L6" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L6" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">3) 구성원 의견의 정책 반영과 결과 공유</div>
+        <div class="question">
+          <div class="question-text">(7) 구성원으로부터 수렴된 의견이 실질적으로 정책에 반영되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L7" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L7" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L7" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L7" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L7" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(8) 정책 미반영 사안에 대해 총장이 그 이유를 공식적으로 설명하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="L8" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="L8" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="L8" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="L8" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="L8" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">※ 리더십 분야 기타 의견 (선택)</div>
+          <textarea name="L9" placeholder="자유롭게 작성해주세요."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
+          <button type="button" class="btn-next" onclick="nextStep()">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 2: 교육 분야 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-2">
+      <div class="card">
+        <div class="section-title">2. 교육 분야</div>
+        <div class="scale-hint">1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분</div>
+
+        <div class="subsection">1) 대학 교육체제 및 운영</div>
+        <div class="question">
+          <div class="question-text">(1) 대학의 교육 운영 체계를 안정적이고 합리적으로 관리하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E1" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E1" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E1" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E1" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E1" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(2) 교육 관련 주요 의사결정에서 구성원의 의견을 적절히 수렴하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E2" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E2" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E2" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E2" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E2" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(3) 대내외 환경 변화에 대응하여 대학 교육의 방향과 과제를 적절히 제시하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E3" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E3" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E3" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E3" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E3" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">2) 교양교육 및 전공교육의 내실화</div>
+        <div class="question">
+          <div class="question-text">(4) 교양교육의 목표와 운영 체계를 내실 있게 관리하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E4" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E4" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E4" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E4" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E4" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(5) 전공교육의 질 제고와 학과(전공) 교육과정 운영을 적절히 지원하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E5" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E5" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E5" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E5" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E5" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(6) 융합·연계 교육 등 유연한 교육과정 운영 기반을 마련하는 데 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E6" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E6" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E6" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E6" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E6" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">3) 학생 성장 지원 및 교육여건 개선</div>
+        <div class="question">
+          <div class="question-text">(7) 학생의 학습·상담·진로 등 성장 지원 체계를 적절히 강화하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E7" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E7" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E7" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E7" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E7" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(8) 수업과 학습을 위한 교육 여건 개선에 지속적으로 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="E8" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="E8" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="E8" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="E8" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="E8" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">※ 교육 분야 기타 의견 (선택)</div>
+          <textarea name="E9" placeholder="자유롭게 작성해주세요."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
+          <button type="button" class="btn-next" onclick="nextStep()">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 3: 연구 분야 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-3">
+      <div class="card">
+        <div class="section-title">3. 연구 분야</div>
+        <div class="scale-hint">1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분</div>
+
+        <div class="subsection">1) 연구몰입 환경 조성</div>
+        <div class="question">
+          <div class="question-text">(1) 교수 및 학생의 연구 친화적 제도 및 환경 조성에 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R1" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R1" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R1" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R1" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R1" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(2) 연구몰입을 위한 제도적 장치가 실효성 있게 설계되었다(트랙별 책임시수, RA 지원 등).<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R2" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R2" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R2" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R2" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R2" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(3) 대형 재정지원 사업(RISE, 글로컬30 등)의 재원이 연구 활성화 부분에 적절히 배분되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R3" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R3" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R3" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R3" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R3" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">2) 교원 연구지원 및 보상체계</div>
+        <div class="question">
+          <div class="question-text">(4) 신임교원 정착 지원(연구 정착금 및 강의 부담 경감)이 확대되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R4" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R4" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R4" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R4" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R4" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(5) 자체연구비 및 학술연구진흥사업이 적절히 운영되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R5" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R5" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R5" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R5" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R5" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(6) 학문 특성을 반영한 연구성과 관리 및 보상체계가 적절히 운영되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R6" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R6" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R6" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R6" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R6" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">3) 글로벌 연구대학 위상 확립</div>
+        <div class="question">
+          <div class="question-text">(7) 글로벌 Top100 수준의 특화 연구센터 육성에 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R7" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R7" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R7" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R7" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R7" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(8) 대학원 중심의 공동·국제연구 기반 확대에 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="R8" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="R8" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="R8" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="R8" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="R8" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">※ 연구 분야 기타 의견 (선택)</div>
+          <textarea name="R9" placeholder="자유롭게 작성해주세요."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
+          <button type="button" class="btn-next" onclick="nextStep()">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 4: 주요 사업 추진 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-4">
+      <div class="card">
+        <div class="section-title">4. 주요 사업 추진</div>
+        <div class="scale-hint">1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분</div>
+
+        <div class="subsection">1) 제도 및 인프라 개선</div>
+        <div class="question">
+          <div class="question-text">(1) 학문의 다양성을 고려한 교원업적 총량제 공약 달성을 위해 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P1" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P1" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P1" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P1" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P1" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(2) AI/Mobile 기반 paperless 행정 등 간편한 행정 프로세스 실현을 위해 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P2" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P2" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P2" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P2" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P2" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">2) 교원 권익 및 복지 혜택 강화</div>
+        <div class="question">
+          <div class="question-text">(3) 전임교원 초과강의료 현실화 등 정당한 보상과 교권 보호를 위해 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P3" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P3" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P3" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P3" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P3" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(4) 교권보호위원회가 실질적으로 운영되고 법률지원이 충분히 이행되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P4" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P4" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P4" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P4" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P4" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(5) 셔틀버스 운영 확대, 복지시설 확충 등 복지 혜택 강화와 환경친화적 근무여건 조성을 위해 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P5" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P5" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P5" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P5" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P5" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">3) 학내 인프라 개선</div>
+        <div class="question">
+          <div class="question-text">(6) 학내 노후 편의시설 개선 및 확충을 위해 적극적으로 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P6" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P6" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P6" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P6" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P6" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(7) 학내 연구 및 교육 인프라 개선을 위해 적극적으로 노력하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P7" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P7" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P7" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P7" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P7" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">4) 대학통합 추진</div>
+        <div class="question">
+          <div class="question-text">(8) 한밭대와의 통합 추진에서 총장은 사안을 적절히 총괄하고 본연의 역할을 잘 수행하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P8" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P8" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P8" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P8" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P8" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(9) 공주대와의 통합 추진에서 총장은 사안을 적절히 총괄하고 본연의 역할을 잘 수행하고 있다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="P9" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="P9" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="P9" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="P9" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="P9" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">※ 주요 사업 기타 의견 (선택)</div>
+          <textarea name="P10" placeholder="자유롭게 작성해주세요."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
+          <button type="button" class="btn-next" onclick="nextStep()">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 5: 재정 및 조직 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-5">
+      <div class="card">
+        <div class="section-title">5. 재정 및 대학 조직</div>
+        <div class="scale-hint">1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분</div>
+
+        <div class="subsection">1) 재정 운용</div>
+        <div class="question">
+          <div class="question-text">(1) 예산 및 결산과 관련된 재정정보를 투명하게 공개하고 있다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F1" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F1" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F1" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F1" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F1" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(2) 등록금 수입 감소에 대응하기 위한 근본적인 재정 대안을 적절히 마련하고 있다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F2" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F2" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F2" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F2" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F2" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(3) 국립대학 육성사업 및 글로컬 사업 관련 예산은 공정하게 배분되고 있다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F3" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F3" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F3" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F3" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F3" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+
+        <div class="subsection">2) 대학 조직 개편 및 운영</div>
+        <div class="question">
+          <div class="question-text">(4) 본부 조직을 체계적으로 개편하고 합리적으로 운영하였다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F4" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F4" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F4" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F4" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F4" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(5) 창의융합대학 신설(무전공학부 운영) 등 대학 조직 개편은 그 필요성과 추진 과정에 비추어 적정하게 이루어졌다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F5" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F5" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F5" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F5" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F5" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">(6) 교육·행정 프로세스의 혁신과 디지털 전환은 행정 효율성과 서비스 질 제고에 기여하는 방향으로 적정하게 추진되었다.<span class="required">*</span></div>
+          <div class="likert-labels"><span>매우 부족</span><span>매우 충분</span></div>
+          <div class="likert">
+            <label><input type="radio" name="F6" value="1" required><div class="dot">1</div></label>
+            <label><input type="radio" name="F6" value="2"><div class="dot">2</div></label>
+            <label><input type="radio" name="F6" value="3"><div class="dot">3</div></label>
+            <label><input type="radio" name="F6" value="4"><div class="dot">4</div></label>
+            <label><input type="radio" name="F6" value="5"><div class="dot">5</div></label>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question-text">※ 재정 및 조직 기타 의견 (선택)</div>
+          <textarea name="F7" placeholder="자유롭게 작성해주세요."></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
+          <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">최종 제출</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- STEP 6: 제출 완료 화면 -->
+    <!-- ══════════════════════════════════ -->
+    <div class="step" id="step-6">
+      <div class="card done-screen">
+        <div class="icon">■</div>
+        <h2>제출이 완료되었습니다</h2>
+        <p>소중한 의견을 보내주셔서 감사합니다.</p>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ⚙️ 설정: Apps Script 배포 URL을 여기에 입력
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR6BJVBWls5L1wgw6wjlWDMCLMAZVR-zGpjONQry5ccGuSW-CyWuw2gL-eJrGJY7nn/exec';
+
+  // 단계 관련 변수
+  const steps = document.querySelectorAll('.step');
+  const TOTAL_STEPS = steps.length - 1; // 완료 화면 제외
+  let currentStep = 0;
+
+  const STEP_NAMES = ['기본 정보', '리더십', '교육', '연구', '주요 사업', '재정·조직'];
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 📌 화면 갱신 함수
+  //    - 현재 단계만 보이게 하고, 진행바 업데이트
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  function updateView() {
+    steps.forEach((el, i) => el.classList.toggle('active', i === currentStep));
+    const pct = currentStep / (TOTAL_STEPS - 1) * 100;
+    document.getElementById('progress-fill').style.width = Math.min(pct, 100) + '%';
+    document.getElementById('step-label').textContent = STEP_NAMES[currentStep] || '완료';
+    document.getElementById('step-count').textContent = currentStep < TOTAL_STEPS
+      ? `${currentStep + 1} / ${TOTAL_STEPS}` : '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ✅ 현재 스텝 유효성 검사
+  //    - required 라디오: 각 name 그룹 중 선택된 게 있는지
+  //    - required 텍스트: 값이 비어있지 않은지
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  function isCurrentStepValid() {
+    const currentEl = steps[currentStep];
+
+    // 라디오 그룹 체크
+    const radioGroups = new Set(
+      [...currentEl.querySelectorAll('input[type="radio"][required]')].map(r => r.name)
+    );
+    for (const name of radioGroups) {
+      if (!currentEl.querySelector(`input[name="${name}"]:checked`)) return false;
+    }
+
+    // 텍스트 입력 체크
+    for (const input of currentEl.querySelectorAll('input[type="text"][required]')) {
+      if (!input.value.trim()) return false;
+    }
+
+    return true;
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ⏭️ 다음 단계 이동 (일반 단계용)
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  function nextStep() {
+    if (!isCurrentStepValid()) {
+      alert('필수 항목(*)을 모두 선택해주세요.');
+      return;
+    }
+    currentStep++;
+    updateView();
+  }
+
+  // ⏮️ 이전 단계 이동
+  function prevStep() {
+    currentStep--;
+    updateView();
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 🔍 ID 중복 체크 후 다음으로 이동 (STEP 0 전용)
+  //    흐름: 입력값 확인 → GET 요청으로 중복 조회 → 없으면 nextStep
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  async function checkIdAndNext() {
+    const idInput = document.getElementById('user_id');
+    const idVal = idInput.value.trim();
+    const idError = document.getElementById('id-error');
+    const dupError = document.getElementById('dup-error');
+
+    // 오류 메시지 초기화
+    idError.classList.remove('show');
+    dupError.classList.remove('show');
+
+    // 1) 입력값 없으면 오류 표시
+    if (!idVal) {
+      idError.classList.add('show');
+      return;
+    }
+
+    const btn = document.getElementById('btn-check');
+    btn.disabled = true;
+    btn.textContent = '확인 중...';
+
+    try {
+      // 2) Apps Script GET으로 중복 ID 조회
+      //    ?check_id=XXX 파라미터를 넘기면 { exists: true/false } 반환
+      const res = await fetch(`${SCRIPT_URL}?check_id=${encodeURIComponent(idVal)}`);
+      const data = await res.json();
+
+      if (data.exists) {
+        // 3a) 이미 있는 ID면 오류 표시
+        dupError.classList.add('show');
+      } else {
+        // 3b) 없는 ID면 다음 단계로
+        currentStep++;
+        updateView();
+      }
+    } catch (err) {
+      alert('서버 연결 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '다음';
+    }
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 📤 최종 제출 함수
+  //    FormData로 모든 응답을 Apps Script POST로 전송
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  async function submitForm() {
+    if (!isCurrentStepValid()) {
+      alert('마지막 페이지의 필수 항목(*)을 모두 선택해주세요.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    try {
+      const form = document.getElementById('surveyForm');
+      await fetch(SCRIPT_URL, { method: 'POST', body: new FormData(form) });
+
+      // 제출 완료 화면으로 이동 (step-6)
+      currentStep = 6;
+      updateView();
+    } catch (err) {
+      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      btn.disabled = false;
+      btn.textContent = '최종 제출';
+    }
+  }
+</script>
+</body>
+</html>
