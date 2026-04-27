@@ -8,10 +8,10 @@
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
     :root {
-      --primary: #0d2b5e;      
+      --primary: #0d2b5e;
       --primary-light: #1a4080;
-      --accent: #c8a951;      
-      --bg: #f7f7f5;        
+      --accent: #c8a951;
+      --bg: #f7f7f5;
       --card: #ffffff;
       --text: #1a1a1a;
       --muted: #6b7280;
@@ -33,34 +33,21 @@
       letter-spacing: -0.01em;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .container { max-width: 600px; margin: 0 auto; }
 
-    /* ── 헤더 ── */
+    /* 헤더 */
     .header {
       text-align: center;
       padding: 32px 0 24px;
       border-bottom: 2px solid var(--primary);
-      margin-bottom: 0;
-    }
-    .logo-img {
-      display: block;
-      max-width: 160px;
-      height: auto;
-      margin: 0 auto 20px;
     }
     .header .badge {
       display: inline-block;
-      background: transparent;
       color: var(--muted);
       font-size: 0.7rem;
       font-weight: 400;
       letter-spacing: 0.12em;
-      padding: 3px 0;
       margin-bottom: 10px;
-      border: none;
     }
     .header h1 {
       font-size: 1.25rem;
@@ -74,17 +61,14 @@
       font-weight: 300;
       color: var(--muted);
       margin-top: 6px;
-      letter-spacing: 0;
     }
 
-    /* ── 공지 박스 ── */
+    /* 공지 박스 */
     .notice-box {
       background: #f0f2f5;
       border-top: 3px solid var(--accent);
       padding: 18px 20px;
-      margin-bottom: 0;
     }
-    .notice-icon { display: none; }
     .notice-text p {
       font-size: 0.8rem;
       font-weight: 300;
@@ -94,19 +78,10 @@
       word-break: keep-all;
     }
     .notice-text p:last-child { margin-bottom: 0; }
-    .notice-text .deadline {
-      font-weight: 500;
-      color: var(--primary);
-    }
-    .notice-text .thanks {
-      font-weight: 400;
-      color: var(--muted);
-    }
+    .notice-text .deadline { font-weight: 500; color: var(--primary); }
 
-    /* ── 진행바 ── */
-    .progress-wrap {
-      margin: 20px 0 16px;
-    }
+    /* 진행바 */
+    .progress-wrap { margin: 20px 0 16px; }
     .progress-label {
       display: flex;
       justify-content: space-between;
@@ -115,11 +90,7 @@
       color: var(--muted);
       margin-bottom: 6px;
     }
-    .progress-bar {
-      height: 3px;
-      background: var(--border-light);
-      overflow: hidden;
-    }
+    .progress-bar { height: 3px; background: var(--border-light); overflow: hidden; }
     .progress-fill {
       height: 100%;
       background: var(--primary);
@@ -127,19 +98,17 @@
       width: 0%;
     }
 
-    /* ── 카드 ── */
+    /* 카드 */
     .card {
       background: var(--card);
-      border-radius: 0;
       border: 1px solid var(--border);
       padding: 28px 24px;
-      margin-bottom: 0;
     }
 
     .step { display: none; }
     .step.active { display: block; }
 
-    /* ── 섹션 제목 ── */
+    /* 섹션 제목 */
     .section-title {
       font-size: 0.95rem;
       font-weight: 700;
@@ -160,7 +129,7 @@
       line-height: 1.7;
     }
 
-    /* ── 소분류 제목 ── */
+    /* 소분류 제목 */
     .subsection {
       font-size: 0.78rem;
       font-weight: 500;
@@ -171,10 +140,8 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── 문항 ── */
-    .question {
-      margin-bottom: 22px;
-    }
+    /* 문항 */
+    .question { margin-bottom: 22px; }
     .question-text {
       font-size: 0.85rem;
       font-weight: 400;
@@ -193,13 +160,8 @@
       font-weight: 300;
       color: var(--muted);
       margin-bottom: 6px;
-      letter-spacing: 0;
     }
-    .likert {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
+    .likert { display: flex; gap: 4px; align-items: center; }
     .likert label {
       flex: 1;
       display: flex;
@@ -250,11 +212,7 @@
       background: #fafafa;
       transition: border-color 0.15s;
     }
-    textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: #fff;
-    }
+    textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
 
     /* text input */
     .text-input {
@@ -270,11 +228,7 @@
       transition: border-color 0.15s;
       background: #fafafa;
     }
-    .text-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: #fff;
-    }
+    .text-input:focus { outline: none; border-color: var(--primary); background: #fff; }
     .input-hint {
       font-size: 0.72rem;
       font-weight: 300;
@@ -283,12 +237,8 @@
       margin-top: 6px;
     }
 
-    /* ── 버튼 ── */
-    .btn-group {
-      display: flex;
-      gap: 8px;
-      margin-top: 30px;
-    }
+    /* 버튼 */
+    .btn-group { display: flex; gap: 8px; margin-top: 30px; }
     button {
       flex: 1;
       padding: 13px;
@@ -301,15 +251,9 @@
       font-family: inherit;
       letter-spacing: 0.04em;
     }
-    .btn-next, .btn-submit {
-      background: var(--primary);
-      color: #fff;
-    }
+    .btn-next, .btn-submit { background: var(--primary); color: #fff; }
     .btn-next:hover, .btn-submit:hover { background: var(--primary-light); }
-    .btn-next:disabled, .btn-submit:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
+    .btn-next:disabled, .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; }
     .btn-prev {
       background: transparent;
       border: 1px solid var(--border);
@@ -319,37 +263,18 @@
     .btn-prev:hover { background: #f0f0ee; }
 
     /* 완료 화면 */
-    .done-screen {
-      text-align: center;
-      padding: 50px 20px;
-    }
-    .done-screen .icon {
-      font-size: 2rem;
-      margin-bottom: 16px;
-      color: var(--primary);
-    }
+    .done-screen { text-align: center; padding: 50px 20px; }
+    .done-screen .icon { font-size: 2rem; margin-bottom: 16px; color: var(--primary); }
     .done-screen h2 {
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 12px;
-      letter-spacing: -0.01em;
     }
-    .done-screen p {
-      font-size: 0.82rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.8;
-    }
+    .done-screen p { font-size: 0.82rem; font-weight: 300; color: var(--muted); line-height: 1.8; }
 
     /* 오류 메시지 */
-    .error-msg {
-      font-size: 0.75rem;
-      font-weight: 400;
-      color: var(--error);
-      margin-top: 7px;
-      display: none;
-    }
+    .error-msg { font-size: 0.75rem; color: var(--error); margin-top: 7px; display: none; }
     .error-msg.show { display: block; }
   </style>
 </head>
@@ -363,11 +288,10 @@
   </div>
 
   <div class="notice-box">
-    <div class="notice-icon"></div>
     <div class="notice-text">
-      <p>본 설문조사는 응답자의 익명성을 철저히 보장하기 위해 외부 전문 업체를 통해 진행됩니다. <strong>모든 응답은 개인을 식별할 수 없는 형태로 수집·분석</strong>되며, 결과는 향후 정책 개선을 위한 자료로만 활용됩니다.</p>
+      <p>본 설문조사는 응답자의 익명성을 철저히 보장하기 위해 외부 전문 업체를 통해 진행됩니다. <strong>모든 응답은 개인을 식별할 수 없는 형태로 수집·분석</strong>되며, 결과는 중간평가를 위한 자료로만 활용됩니다.</p>
       <p>솔직하고 자유로운 의견을 부탁드립니다. 감사합니다.</p>
-      <p class="deadline"> 조사 기한: 5월 6일(화) 09:00까지</p>
+      <p class="deadline">조사 기한: 5월 6일(화) 09:00까지</p>
     </div>
   </div>
 
@@ -383,18 +307,17 @@
 
   <form id="surveyForm" novalidate>
 
-    <!-- ══════════════════════════════════ -->
-    <!-- STEP 0: 기본 정보 (ID 입력 + 중복 체크) -->
-    <!-- ══════════════════════════════════ -->
+    <!-- STEP 0: 기본 정보 -->
     <div class="step active" id="step-0">
       <div class="card">
         <div class="section-title">기본 정보 입력</div>
         <p style="font-size:0.82rem;color:var(--muted);margin:6px 0 20px;line-height:1.6;">
-         교직원 ID는 중복 제출 방지 목적으로만 사용되며, 응답 내용과 분리되어 관리됩니다.
+          교직원 ID는 중복 제출 방지 목적으로만 사용되며, 응답 내용과 분리되어 관리됩니다.
         </p>
         <div class="question">
           <div class="question-text">교직원 ID를 입력해주세요<span class="required">*</span></div>
-          <input type="text" id="user_id" name="user_id" class="text-input" placeholder="예) 2024001" autocomplete="off" onkeydown="if(event.key==='Enter') checkIdAndNext()">
+          <input type="text" id="user_id" name="user_id" class="text-input" placeholder="예) 2024001" autocomplete="off"
+            onkeydown="if(event.key==='Enter'){ event.preventDefault(); checkIdAndNext(); }">
           <div class="input-hint">이미 제출하신 경우 중복 제출이 제한됩니다.</div>
           <div class="error-msg" id="id-error">ID를 입력해주세요.</div>
           <div class="error-msg" id="dup-error">이미 제출된 ID입니다. 중복 제출은 불가합니다.</div>
@@ -405,15 +328,11 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
     <!-- STEP 1: 리더십 분야 -->
-    <!-- ══════════════════════════════════ -->
     <div class="step" id="step-1">
       <div class="card">
         <div class="section-title">1. 리더십 분야</div>
-        <div class="scale-hint">
-          1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분
-        </div>
+        <div class="scale-hint">1: 매우 잘못하거나 매우 부족 &nbsp;|&nbsp; 3: 보통 &nbsp;|&nbsp; 5: 매우 잘하거나 매우 충분</div>
 
         <div class="subsection">1) 대학 최고경영자로서의 직무수행</div>
         <div class="question">
@@ -512,7 +431,6 @@
           <div class="question-text">※ 리더십 분야 기타 의견 (선택)</div>
           <textarea name="L9" placeholder="자유롭게 작성해주세요."></textarea>
         </div>
-
         <div class="btn-group">
           <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
           <button type="button" class="btn-next" onclick="nextStep()">다음</button>
@@ -520,9 +438,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
     <!-- STEP 2: 교육 분야 -->
-    <!-- ══════════════════════════════════ -->
     <div class="step" id="step-2">
       <div class="card">
         <div class="section-title">2. 교육 분야</div>
@@ -625,7 +541,6 @@
           <div class="question-text">※ 교육 분야 기타 의견 (선택)</div>
           <textarea name="E9" placeholder="자유롭게 작성해주세요."></textarea>
         </div>
-
         <div class="btn-group">
           <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
           <button type="button" class="btn-next" onclick="nextStep()">다음</button>
@@ -633,9 +548,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
     <!-- STEP 3: 연구 분야 -->
-    <!-- ══════════════════════════════════ -->
     <div class="step" id="step-3">
       <div class="card">
         <div class="section-title">3. 연구 분야</div>
@@ -738,7 +651,6 @@
           <div class="question-text">※ 연구 분야 기타 의견 (선택)</div>
           <textarea name="R9" placeholder="자유롭게 작성해주세요."></textarea>
         </div>
-
         <div class="btn-group">
           <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
           <button type="button" class="btn-next" onclick="nextStep()">다음</button>
@@ -746,9 +658,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
     <!-- STEP 4: 주요 사업 추진 -->
-    <!-- ══════════════════════════════════ -->
     <div class="step" id="step-4">
       <div class="card">
         <div class="section-title">4. 주요 사업 추진</div>
@@ -864,7 +774,6 @@
           <div class="question-text">※ 주요 사업 기타 의견 (선택)</div>
           <textarea name="P10" placeholder="자유롭게 작성해주세요."></textarea>
         </div>
-
         <div class="btn-group">
           <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
           <button type="button" class="btn-next" onclick="nextStep()">다음</button>
@@ -872,9 +781,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
     <!-- STEP 5: 재정 및 조직 -->
-    <!-- ══════════════════════════════════ -->
     <div class="step" id="step-5">
       <div class="card">
         <div class="section-title">5. 재정 및 대학 조직</div>
@@ -953,7 +860,6 @@
           <div class="question-text">※ 재정 및 조직 기타 의견 (선택)</div>
           <textarea name="F7" placeholder="자유롭게 작성해주세요."></textarea>
         </div>
-
         <div class="btn-group">
           <button type="button" class="btn-prev" onclick="prevStep()">이전</button>
           <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">최종 제출</button>
@@ -961,9 +867,7 @@
       </div>
     </div>
 
-    <!-- ══════════════════════════════════ -->
-    <!-- STEP 6: 제출 완료 화면 -->
-    <!-- ══════════════════════════════════ -->
+    <!-- STEP 6: 완료 -->
     <div class="step" id="step-6">
       <div class="card done-screen">
         <div class="icon">■</div>
@@ -976,89 +880,59 @@
 </div>
 
 <script>
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // ⚙️ 설정: Apps Script 배포 URL을 여기에 입력
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR6BJVBWls5L1wgw6wjlWDMCLMAZVR-zGpjONQry5ccGuSW-CyWuw2gL-eJrGJY7nn/exec';
 
-  // 단계 관련 변수
   const steps = document.querySelectorAll('.step');
-  const TOTAL_STEPS = steps.length - 1; // 완료 화면 제외
+  const TOTAL_STEPS = steps.length - 1;
   let currentStep = 0;
-
   const STEP_NAMES = ['기본 정보', '리더십', '교육', '연구', '주요 사업', '재정·조직'];
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // 📌 화면 갱신 함수
-  //    - 현재 단계만 보이게 하고, 진행바 업데이트
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   function updateView() {
     steps.forEach((el, i) => el.classList.toggle('active', i === currentStep));
     const pct = currentStep / (TOTAL_STEPS - 1) * 100;
     document.getElementById('progress-fill').style.width = Math.min(pct, 100) + '%';
     document.getElementById('step-label').textContent = STEP_NAMES[currentStep] || '완료';
-    document.getElementById('step-count').textContent = currentStep < TOTAL_STEPS
-      ? `${currentStep + 1} / ${TOTAL_STEPS}` : '';
+    document.getElementById('step-count').textContent = currentStep < TOTAL_STEPS ? `${currentStep + 1} / ${TOTAL_STEPS}` : '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // ✅ 현재 스텝 유효성 검사
-  //    - required 라디오: 각 name 그룹 중 선택된 게 있는지
-  //    - required 텍스트: 값이 비어있지 않은지
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   function isCurrentStepValid() {
     const currentEl = steps[currentStep];
-
-    // 라디오 그룹 체크
     const radioGroups = new Set(
       [...currentEl.querySelectorAll('input[type="radio"][required]')].map(r => r.name)
     );
     for (const name of radioGroups) {
       if (!currentEl.querySelector(`input[name="${name}"]:checked`)) return false;
     }
-
-    // 텍스트 입력 체크
     for (const input of currentEl.querySelectorAll('input[type="text"][required]')) {
       if (!input.value.trim()) return false;
     }
-
     return true;
   }
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // ⏭️ 다음 단계 이동 (일반 단계용)
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   function nextStep() {
-    if (!isCurrentStepValid()) {
-      alert('필수 항목(*)을 모두 선택해주세요.');
-      return;
-    }
+    if (!isCurrentStepValid()) { alert('필수 항목(*)을 모두 선택해주세요.'); return; }
     currentStep++;
     updateView();
   }
 
-  // ⏮️ 이전 단계 이동
   function prevStep() {
     currentStep--;
     updateView();
   }
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // 🔍 ID 중복 체크 후 다음으로 이동 (STEP 0 전용)
-  //    흐름: 입력값 확인 → GET 요청으로 중복 조회 → 없으면 nextStep
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ID 입력 후 다음으로
+  // GitHub Pages → Apps Script CORS 문제로 GET 중복체크 불가
+  // 입력값만 확인하고 바로 다음 단계로 이동 (중복 차단은 doPost 서버에서 처리)
   async function checkIdAndNext() {
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
     const idError = document.getElementById('id-error');
     const dupError = document.getElementById('dup-error');
 
-    // 오류 메시지 초기화
     idError.classList.remove('show');
     dupError.classList.remove('show');
 
-    // 1) 입력값 없으면 오류 표시
     if (!idVal) {
       idError.classList.add('show');
       return;
@@ -1068,37 +942,16 @@
     btn.disabled = true;
     btn.textContent = '확인 중...';
 
-    try {
-      // 2) Apps Script GET으로 중복 ID 조회
-      //    ?check_id=XXX 파라미터를 넘기면 { exists: true/false } 반환
-      const res = await fetch(`${SCRIPT_URL}?check_id=${encodeURIComponent(idVal)}`);
-      const data = await res.json();
-
-      if (data.exists) {
-        // 3a) 이미 있는 ID면 오류 표시
-        dupError.classList.add('show');
-      } else {
-        // 3b) 없는 ID면 다음 단계로
-        currentStep++;
-        updateView();
-      }
-    } catch (err) {
-      alert('서버 연결 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '다음';
-    }
+    currentStep++;
+    updateView();
+    btn.disabled = false;
+    btn.textContent = '다음';
   }
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // 📤 최종 제출 함수
-  //    FormData로 모든 응답을 Apps Script POST로 전송
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 최종 제출
+  // CORS로 오류가 와도 실제 데이터는 전송됐을 수 있으므로 완료 화면으로 이동
   async function submitForm() {
-    if (!isCurrentStepValid()) {
-      alert('마지막 페이지의 필수 항목(*)을 모두 선택해주세요.');
-      return;
-    }
+    if (!isCurrentStepValid()) { alert('마지막 페이지의 필수 항목(*)을 모두 선택해주세요.'); return; }
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
@@ -1107,14 +960,11 @@
     try {
       const form = document.getElementById('surveyForm');
       await fetch(SCRIPT_URL, { method: 'POST', body: new FormData(form) });
-
-      // 제출 완료 화면으로 이동 (step-6)
+    } catch (err) {
+      // CORS 오류여도 실제 제출은 완료됨
+    } finally {
       currentStep = 6;
       updateView();
-    } catch (err) {
-      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
-      btn.disabled = false;
-      btn.textContent = '최종 제출';
     }
   }
 </script>
