@@ -968,37 +968,21 @@
     }
 
     try {
-      const res = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         body: params,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        mode : 'no-cors'
       });
-      const text = await res.text();
-      if (text === 'Success' || text.includes('Success')) {
-        currentStep = 6;
-        updateView();
-      } else {
-        alert('제출 중 오류가 발생했습니다. 다시 시도해주세요.');
-        btn.disabled = false;
-        btn.textContent = '최종 제출';
-      }
-    } catch (err) {
-      // CORS 에러 시 no-cors로 재시도
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: params,
-          mode: 'no-cors'
-        });
-        currentStep = 6;
-        updateView();
-      } catch(e) {
-        alert('네트워크 오류. 인터넷 연결을 확인해주세요.');
-        btn.disabled = false;
-        btn.textContent = '최종 제출';
-      }
+    } catch (e) {
+      // 네트워크 완전 끊긴 경우에만
+      console.error(e);
+    } finally {
+      //전송 시도 후 무조건 완료 화면
+      currentStep = 6;
+      updateView();
     }
   }
+
 </script>
 </body>
 </html>
