@@ -911,47 +911,13 @@
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
     const idError = document.getElementById('id-error');
-    const dupError = document.getElementById('dup-error');
-
+  
     idError.classList.remove('show');
-    dupError.classList.remove('show');
-
+  
     if (!idVal) { idError.classList.add('show'); return; }
-
-    const btn = document.getElementById('btn-check');
-    btn.disabled = true;
-    btn.textContent = '확인 중...';
-
-    const callbackName = 'cb_' + Date.now();
-    const script = document.createElement('script');
-
-    new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => reject('timeout'), 5000);
-      window[callbackName] = (data) => {
-        clearTimeout(timeout);
-        delete window[callbackName];
-        if (document.body.contains(script)) document.body.removeChild(script);
-        resolve(data);
-      };
-      script.onerror = () => {
-        clearTimeout(timeout);
-        reject('error');
-      };
-      script.src = `${SCRIPT_URL}?check_id=${encodeURIComponent(idVal)}&callback=${callbackName}`;
-      document.body.appendChild(script);
-    }).then(data => {
-      if (data.exists) {
-        dupError.classList.add('show');
-      } else {
-        currentStep++;
-        updateView();
-      }
-    }).catch(() => {
-      alert('ID 확인에 실패했습니다. 네트워크 상태를 확인 후 다시 시도해주세요.');
-    }).finally(()=>{
-      btn.disabled = false;
-      btn.textContent = '다음';
-    });
+  
+    currentStep++;
+    updateView();
   }
 
   async function submitForm() {
