@@ -926,12 +926,17 @@
     const script = document.createElement('script');
 
     new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject('timeout'), 5000);
       window[callbackName] = (data) => {
+        clearTimeout(timeout);
         delete window[callbackName];
-        document.body.removeChild(script);
+        if (document.body.contains(script)) document.body.removeChild(script);
         resolve(data);
       };
-      script.onerror = () => reject();
+      script.onerror = () => {
+        clearTimeout(timeout);
+        reject('error');
+      };
       script.src = `${SCRIPT_URL}?check_id=${encodeURIComponent(idVal)}&callback=${callbackName}`;
       document.body.appendChild(script);
     }).then(data => {
@@ -942,9 +947,8 @@
         updateView();
       }
     }).catch(() => {
-      currentStep++;
-      updateView();
-    }).finally(() => {
+      alert('ID 확인에 실패했습니다. 네트워크 상태를 확인 후 다시 시도해주세요.');
+    }).finally(()=>{
       btn.disabled = false;
       btn.textContent = '다음';
     });
