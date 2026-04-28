@@ -866,7 +866,7 @@
 </div>
 
 <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd0ddFRuZMom3wNoMwHfAq1xwGi-cIl3vSZXONwhbpdiPzDiFEvoJzzOBXEJfuxqjx/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEnL0fuQe7MIWk2CfbBojPy7POJDYE6Ab7WEGEVqPOgdGDCHoaZviw6ukW0WG64Cds/exec';
 
   const steps = document.querySelectorAll('.step');
   const TOTAL_STEPS = steps.length - 1;
@@ -910,14 +910,34 @@
   async function checkIdAndNext() {
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
+  
     const idError = document.getElementById('id-error');
+    const dupError = document.getElementById('dup-error');
   
     idError.classList.remove('show');
+    dupError.classList.remove('show');
   
-    if (!idVal) { idError.classList.add('show'); return; }
+    if (!idVal) {
+      idError.classList.add('show');
+      return;
+    }
   
-    currentStep++;
-    updateView();
+    try {
+      const res = await fetch(`${SCRIPT_URL}?check_id=${idVal}`);
+      const data = await res.json();
+  
+      if (data.exists) {
+        dupError.classList.add('show');
+        return;
+      }
+  
+      currentStep++;
+      updateView();
+  
+    } catch (e) {
+      alert("서버 연결 오류");
+      console.error(e);
+    }
   }
 
   async function submitForm() {
@@ -938,11 +958,20 @@
     }
 
     try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: params,
-        mode : 'no-cors'
-      });
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: params
+    });
+    
+    const data = await res.json();
+    
+    // 👉 중복 체크
+    if (data.status === "duplicate") {
+      alert("이미 제출된 ID입니다.");
+      btn.disabled = false;
+      btn.textContent = '최종 제출';
+      return;
+    }
     } catch (e) {
       // 네트워크 완전 끊긴 경우에만
       console.error(e);
