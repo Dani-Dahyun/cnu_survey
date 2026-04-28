@@ -35,7 +35,6 @@
 
     .container { max-width: 600px; margin: 0 auto; }
 
-    /* 헤더 */
     .header {
       text-align: center;
       padding: 32px 0 24px;
@@ -63,7 +62,6 @@
       margin-top: 6px;
     }
 
-    /* 공지 박스 */
     .notice-box {
       background: #f0f2f5;
       border-top: 3px solid var(--accent);
@@ -80,7 +78,6 @@
     .notice-text p:last-child { margin-bottom: 0; }
     .notice-text .deadline { font-weight: 500; color: var(--primary); }
 
-    /* 진행바 */
     .progress-wrap { margin: 20px 0 16px; }
     .progress-label {
       display: flex;
@@ -98,7 +95,6 @@
       width: 0%;
     }
 
-    /* 카드 */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -108,7 +104,6 @@
     .step { display: none; }
     .step.active { display: block; }
 
-    /* 섹션 제목 */
     .section-title {
       font-size: 0.95rem;
       font-weight: 700;
@@ -129,7 +124,6 @@
       line-height: 1.7;
     }
 
-    /* 소분류 제목 */
     .subsection {
       font-size: 0.78rem;
       font-weight: 500;
@@ -140,7 +134,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* 문항 */
     .question { margin-bottom: 22px; }
     .question-text {
       font-size: 0.85rem;
@@ -152,7 +145,6 @@
     }
     .required { color: var(--error); margin-left: 2px; }
 
-    /* 리커트 척도 */
     .likert-labels {
       display: flex;
       justify-content: space-between;
@@ -197,7 +189,6 @@
       font-weight: 500;
     }
 
-    /* textarea */
     textarea {
       width: 100%;
       padding: 10px 12px;
@@ -214,7 +205,6 @@
     }
     textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
 
-    /* text input */
     .text-input {
       width: 100%;
       padding: 11px 14px;
@@ -237,7 +227,6 @@
       margin-top: 6px;
     }
 
-    /* 버튼 */
     .btn-group { display: flex; gap: 8px; margin-top: 30px; }
     button {
       flex: 1;
@@ -262,7 +251,6 @@
     }
     .btn-prev:hover { background: #f0f0ee; }
 
-    /* 완료 화면 */
     .done-screen { text-align: center; padding: 50px 20px; }
     .done-screen .icon { font-size: 2rem; margin-bottom: 16px; color: var(--primary); }
     .done-screen h2 {
@@ -273,7 +261,6 @@
     }
     .done-screen p { font-size: 0.82rem; font-weight: 300; color: var(--muted); line-height: 1.8; }
 
-    /* 오류 메시지 */
     .error-msg { font-size: 0.75rem; color: var(--error); margin-top: 7px; display: none; }
     .error-msg.show { display: block; }
   </style>
@@ -920,10 +907,7 @@
     updateView();
   }
 
-  // ID 입력 후 다음으로
-  // GitHub Pages → Apps Script CORS 문제로 GET 중복체크 불가
-  // 입력값만 확인하고 바로 다음 단계로 이동 (중복 차단은 doPost 서버에서 처리)
-async function checkIdAndNext() {
+  async function checkIdAndNext() {
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
     const idError = document.getElementById('id-error');
@@ -938,7 +922,6 @@ async function checkIdAndNext() {
     btn.disabled = true;
     btn.textContent = '확인 중...';
 
-    // JSONP 방식으로 CORS 우회해서 중복 체크
     const callbackName = 'cb_' + Date.now();
     const script = document.createElement('script');
 
@@ -959,7 +942,6 @@ async function checkIdAndNext() {
         updateView();
       }
     }).catch(() => {
-      // 오류 시 그냥 통과
       currentStep++;
       updateView();
     }).finally(() => {
@@ -967,23 +949,54 @@ async function checkIdAndNext() {
       btn.textContent = '다음';
     });
   }
-  // 최종 제출
-  // CORS로 오류가 와도 실제 데이터는 전송됐을 수 있으므로 완료 화면으로 이동
+
   async function submitForm() {
-    if (!isCurrentStepValid()) { alert('마지막 페이지의 필수 항목(*)을 모두 선택해주세요.'); return; }
+    if (!isCurrentStepValid()) {
+      alert('마지막 페이지의 필수 항목(*)을 모두 선택해주세요.');
+      return;
+    }
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
     btn.textContent = '제출 중...';
 
+    const form = document.getElementById('surveyForm');
+    const formData = new FormData(form);
+    const params = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      params.append(key, value);
+    }
+
     try {
-      const form = document.getElementById('surveyForm');
-      await fetch(SCRIPT_URL, { method: 'POST', body: new FormData(form) });
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: params,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      });
+      const text = await res.text();
+      if (text === 'Success' || text.includes('Success')) {
+        currentStep = 6;
+        updateView();
+      } else {
+        alert('제출 중 오류가 발생했습니다. 다시 시도해주세요.');
+        btn.disabled = false;
+        btn.textContent = '최종 제출';
+      }
     } catch (err) {
-      // CORS 오류여도 실제 제출은 완료됨
-    } finally {
-      currentStep = 6;
-      updateView();
+      // CORS 에러 시 no-cors로 재시도
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: params,
+          mode: 'no-cors'
+        });
+        currentStep = 6;
+        updateView();
+      } catch(e) {
+        alert('네트워크 오류. 인터넷 연결을 확인해주세요.');
+        btn.disabled = false;
+        btn.textContent = '최종 제출';
+      }
     }
   }
 </script>
