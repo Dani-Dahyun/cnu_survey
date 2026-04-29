@@ -896,7 +896,10 @@
     return true;
   }
 
+  let isNavigating = false;
+
   function nextStep() {
+    if (isNavigating) return;
     if (!isCurrentStepValid()) { alert('필수 항목(*)을 모두 선택해주세요.'); return; }
     currentStep++;
     updateView();
@@ -908,6 +911,8 @@
   }
 
   async function checkIdAndNext() {
+    const btn = document.getElementById('btn-check');
+    btn.disabled = true;
     const idInput = document.getElementById('user_id');
     const idVal = idInput.value.trim();
   
@@ -928,6 +933,7 @@
   
       if (data.exists) {
         dupError.classList.add('show');
+        btn.disabled = false;
         return;
       }
   
@@ -936,6 +942,7 @@
   
     } catch (e) {
       alert("서버 연결 오류");
+      btn.disabled = false;
       console.error(e);
     }
   }
@@ -972,14 +979,14 @@
       btn.textContent = '최종 제출';
       return;
     }
-    } catch (e) {
-      // 네트워크 완전 끊긴 경우에만
-      console.error(e);
-    } finally {
-      //전송 시도 후 무조건 완료 화면
       currentStep = 6;
       updateView();
-    }
+    } catch (e) {
+      alert("서버 연결 오류가 발생했습니다. 다시 시도해주세요.");
+      btn.disabled = false;
+      btn.textContent = '최종 제출';
+      console.error(e);
+    } 
   }
 
 </script>
